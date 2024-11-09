@@ -61,7 +61,8 @@ fun Board(
 
                             onClick = {
                                 updateGameState(i, j)
-                            }
+                            },
+                            enabled = matrix[i][j].isEmpty()
                         ) {
                             if (col == "X") {
                                 Image(
