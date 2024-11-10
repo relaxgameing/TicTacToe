@@ -1,6 +1,7 @@
 package com.example.tictactoe.Components
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,25 +23,28 @@ import androidx.compose.ui.unit.sp
 import com.example.tictactoe.ui.theme.bungeFontFamily
 import com.example.tictactoe.ui.theme.kantiFontFamily
 
-@RequiresApi(Build.VERSION_CODES.O)
+
 @Composable
-fun WinningScreen(winner: String, finalWinner: Int, resetRound: () -> Unit) {
-    val winner = remember { winner }
+fun WinningScreen(winner: Int, finalWinner: Int, resetRound: () -> Unit) {
     Column(
         modifier = Modifier.size(300.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (finalWinner != 0) {
+        if (finalWinner > 0) {
             Text("Player $finalWinner won", fontFamily = kantiFontFamily, softWrap = true ,
                 letterSpacing = 3.sp , fontSize = 25.sp )
         }
         else
-            Text("$winner won the Round", fontFamily = kantiFontFamily)
+            Text(if (winner > 0) "player $winner won the round" else "Round Draw", fontFamily = kantiFontFamily)
         Spacer(modifier = Modifier.height(15.dp))
 
+
         TextButton(
-            onClick = { resetRound() },
+            onClick = {
+                resetRound()
+                Log.d("debug",  "button clicked")
+              },
         ) {
             Icon(Icons.Filled.Refresh, contentDescription = "refresh", tint = Color.White)
         }

@@ -30,7 +30,8 @@ import com.example.tictactoe.ui.theme.BackGroundColor
 @Composable
 fun Board(
     gameMatrix: SnapshotStateList<SnapshotStateList<String>>,
-    updateGameState: (Int, Int) -> Unit
+    updateBoardState: (Int, Int) -> Int,
+    updateGameState: (Int)-> Unit
 ) {
     val matrix  = remember { gameMatrix }
     Surface(
@@ -60,7 +61,7 @@ fun Board(
                             shape = RectangleShape,
 
                             onClick = {
-                                updateGameState(i, j)
+                                updateGameState(updateBoardState(i, j))
                             },
                             enabled = matrix[i][j].isEmpty()
                         ) {

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,7 +19,7 @@ import com.example.tictactoe.ui.theme.bungeFontFamily
 import com.example.tictactoe.ui.theme.kantiFontFamily
 
 @Composable
-fun Header(gameState: GameState) {
+fun Header(playerScores : SnapshotStateList<Int>) {
     Column(
         modifier = Modifier.Companion.fillMaxWidth(),
         horizontalAlignment = Alignment.Companion.CenterHorizontally
@@ -32,9 +33,9 @@ fun Header(gameState: GameState) {
                 .padding(vertical = 32.dp),
             horizontalArrangement = Arrangement.Center
         ) {
-            ScoreBoard("Player 1",gameState.player1Score.intValue )
+            ScoreBoard("Player 1",playerScores[0] )
             Spacer(modifier = Modifier.Companion.width(32.dp))
-            ScoreBoard("Player 2", gameState.player2Score.intValue)
+            ScoreBoard("Player 2", playerScores[1])
         }
     }
 }
