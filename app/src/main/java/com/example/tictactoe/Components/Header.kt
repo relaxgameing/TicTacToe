@@ -25,7 +25,7 @@ fun Header(playerScores : SnapshotStateList<Int>) {
         horizontalAlignment = Alignment.Companion.CenterHorizontally
     ) {
 
-        Text("Tic Tac Toe", fontSize = 40.sp, fontFamily = kantiFontFamily)
+        AppLogo()
 
         Row(
             modifier = Modifier.Companion
