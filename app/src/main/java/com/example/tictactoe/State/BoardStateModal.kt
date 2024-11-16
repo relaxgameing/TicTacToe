@@ -1,4 +1,4 @@
-package com.example.tictactoe
+package com.example.tictactoe.State
 
 import android.util.Log
 import androidx.compose.runtime.MutableIntState
@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import java.util.Stack
 
 data class BoardState(
     var board: SnapshotStateList<SnapshotStateList<String>> = mutableStateListOf(
@@ -28,13 +29,21 @@ data class BoardState(
     val isBoardFull: MutableState<Boolean> = mutableStateOf(false),
     var isRoundOver: MutableState<Boolean> = mutableStateOf(false),
     var roundWinner: MutableIntState = mutableIntStateOf(0),
+    val mode:String = "classic",
+    val gameStack: ArrayDeque<Array<Int>> = ArrayDeque<Array<Int>>()
 )
 
-class BoardStateRepository{
+class BoardStateRepository(mode: String = "classic"){
 
-    private  var _boardState  = BoardState()
+    private var _boardState: BoardState = if (mode == "crazy"){
+        BoardState(mode = "crazy")
+    }else{
+        BoardState()
+    }
 
-    fun getBoardState() = _boardState
+    fun getBoardState(): BoardState {
+        return _boardState
+    }
 
     fun resetRound() {
         _boardState.board.forEachIndexed { i, row ->
@@ -56,6 +65,7 @@ class BoardStateRepository{
         _boardState.isRoundOver.value = false
         _boardState.roundWinner.intValue = 0
         _boardState.isBoardFull.value = false
+        _boardState.gameStack.clear()
         Log.d("debug" , "inside resetRound in repository $_boardState")
     }
 
@@ -72,6 +82,8 @@ class BoardStateRepository{
         }
         else
             _boardState.board[row][col] = "O"
+
+        _boardState.gameStack.addLast(arrayOf(row , col))
     }
 
     fun updateColHash(col:Int){
@@ -93,7 +105,29 @@ class BoardStateRepository{
             _boardState.roundWinner.intValue  = three
         }
 
+        if (_boardState.mode == "crazy" && _boardState.gameStack.size == 8){
+            crazyModeMatrixUpdate()
+        }
+
         return three
+    }
+
+    fun crazyModeMatrixUpdate(){
+        //handle removal
+        val removed = _boardState.gameStack.removeFirst()
+
+        val temp = _boardState.board[removed[0]][removed[1]]
+        _boardState.board[removed[0]][removed[1]] = ""
+
+        if (temp == "X"){
+             _boardState.colHash[removed[1]][0]--
+            _boardState.rowHash[removed[0]][0]--
+        }else{
+            _boardState.colHash[removed[1]][1]--
+            _boardState.rowHash[removed[0]][1]--
+        }
+
+
     }
 
     fun checkForThree(): Int {

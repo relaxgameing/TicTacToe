@@ -14,19 +14,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tictactoe.GameState
-import com.example.tictactoe.ui.theme.bungeFontFamily
 import com.example.tictactoe.ui.theme.kantiFontFamily
+import org.w3c.dom.Text
 
 @Composable
-fun Header(playerScores : SnapshotStateList<Int>) {
+fun Header(playerScores : SnapshotStateList<Int> , mode: String) {
     Column(
         modifier = Modifier.Companion.fillMaxWidth(),
         horizontalAlignment = Alignment.Companion.CenterHorizontally
     ) {
 
         AppLogo()
-
+        Text("$mode mode" , fontFamily = kantiFontFamily , fontSize = 20.sp)
         Row(
             modifier = Modifier.Companion
                 .fillMaxWidth()

@@ -32,7 +32,7 @@ import com.example.tictactoe.ui.theme.BorderColor
 import com.example.tictactoe.ui.theme.TicTacToeTheme
 import com.example.tictactoe.ui.theme.kantiFontFamily
 
-class HomeScreen(val  navigateTo: ()-> Unit) : ComponentActivity() {
+class HomeScreen(val  navigateTo: (String)-> Unit) : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
         super.onCreate(savedInstanceState, persistentState)
         enableEdgeToEdge()
@@ -45,7 +45,7 @@ class HomeScreen(val  navigateTo: ()-> Unit) : ComponentActivity() {
 }
 
 @Composable
-fun MainMenu(navigateTo: () -> Unit) {
+fun MainMenu(navigateTo: (String) -> Unit) {
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -75,12 +75,12 @@ fun MainMenu(navigateTo: () -> Unit) {
 }
 
 @Composable
-fun Menu(navigateTo: () -> Unit) {
+fun Menu(navigateTo: (String) -> Unit) {
     MenuOption(navigateTo)
 }
 
 @Composable
-fun MenuOption(navigateTo: () -> Unit , modifier: Modifier = Modifier) {
+fun MenuOption(navigateTo: (String) -> Unit, modifier: Modifier = Modifier) {
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxWidth().wrapContentHeight(),
@@ -88,11 +88,19 @@ fun MenuOption(navigateTo: () -> Unit , modifier: Modifier = Modifier) {
         H3("Select Mode")
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedButton (
-            onClick = {navigateTo()},
+            onClick = {navigateTo("classic")},
             colors = ButtonDefaults.outlinedButtonColors(containerColor = BorderColor, contentColor = Color.Black),
             border = null
         ) {
             H4("Classic")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedButton (
+            onClick = {navigateTo("crazy")},
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = BorderColor, contentColor = Color.Black),
+            border = null
+        ) {
+            H4("Crazy")
         }
     }
 }

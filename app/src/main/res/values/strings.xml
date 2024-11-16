@@ -2,4 +2,7 @@
     <string name="app_name">TicTacToe</string>
     <string name="cross">X</string>
     <string name="circle">O</string>
+    <string name="classic">classic</string>
+    <string name="crazy">crazy</string>
+
 </resources>

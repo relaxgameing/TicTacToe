@@ -1,4 +1,4 @@
-package com.example.tictactoe
+package com.example.tictactoe.State
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
