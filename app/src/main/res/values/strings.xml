@@ -4,5 +4,6 @@
     <string name="circle">O</string>
     <string name="classic">classic</string>
     <string name="crazy">crazy</string>
-
+    <string name="supabase_url">https://wiwrmphtcxpjyqfvxlwq.supabase.co</string>
+    <string name="supabase_key">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indpd3JtcGh0Y3hwanlxZnZ4bHdxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzE4MzcxMTksImV4cCI6MjA0NzQxMzExOX0.7n9_22q62evKEO7vcVKLkV1jpDW1E45T3p0_QUiHFlU</string>
 </resources>

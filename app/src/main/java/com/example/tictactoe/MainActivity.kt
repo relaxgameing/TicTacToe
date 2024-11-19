@@ -10,17 +10,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tictactoe.Components.GameScreen
+import com.example.tictactoe.supabase.Supabase
 import com.example.tictactoe.ui.theme.TicTacToeTheme
+import io.github.jan.supabase.SupabaseClient
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val supabase = Supabase(getString(R.string.supabase_url) , getString(R.string.supabase_key))
+
+
         val classicGameState = GameModeState()
         val crazyGameState = GameModeState("crazy")
         setContent {
             TicTacToeTheme {
-                App(classicGameState , crazyGameState)
+//                App(classicGameState , crazyGameState)
+                supabase.CreateRoom()
             }
         }
     }
