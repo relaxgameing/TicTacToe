@@ -99,14 +99,13 @@ class BoardStateRepository(mode: String = "classic"){
         updateColHash(col)
         updateRowHash(row)
         _boardState.isPlayer1Turn.value = !_boardState.isPlayer1Turn.value
+        if (_boardState.mode == "crazy" && _boardState.gameStack.size == 7){
+            crazyModeMatrixUpdate()
+        }
         val three = checkForThree()
         if (three != 0 ){
             _boardState.isRoundOver.value = true;
             _boardState.roundWinner.intValue  = three
-        }
-
-        if (_boardState.mode == "crazy" && _boardState.gameStack.size == 8){
-            crazyModeMatrixUpdate()
         }
 
         return three
