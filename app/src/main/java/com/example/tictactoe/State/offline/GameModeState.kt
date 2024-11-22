@@ -1,11 +1,4 @@
-package com.example.tictactoe
-
-import com.example.tictactoe.State.BoardState
-import com.example.tictactoe.State.BoardStateRepository
-import com.example.tictactoe.State.BoardViewModal
-import com.example.tictactoe.State.GameState
-import com.example.tictactoe.State.GameStateRepository
-import com.example.tictactoe.State.GameViewModal
+package com.example.tictactoe.State.offline
 
 class GameModeState(boardMode: String = "classic") {
     private val gameState: GameViewModal = GameViewModal(GameStateRepository())

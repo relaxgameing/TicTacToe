@@ -1,4 +1,4 @@
-package com.example.tictactoe.Components
+package com.example.tictactoe.Screen
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -14,25 +14,34 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tictactoe.State.BoardStateRepository
-import com.example.tictactoe.State.BoardViewModal
-import com.example.tictactoe.State.GameStateRepository
-import com.example.tictactoe.State.GameViewModal
+import com.example.tictactoe.Components.Board
+import com.example.tictactoe.Components.Header
+import com.example.tictactoe.Components.WinningScreen
+import com.example.tictactoe.State.offline.BoardStateRepository
+import com.example.tictactoe.State.offline.BoardViewModal
+import com.example.tictactoe.State.offline.GameStateRepository
+import com.example.tictactoe.State.offline.GameViewModal
+import com.example.tictactoe.State.offline.GameState
 import com.example.tictactoe.ui.theme.BackGroundColor
 import com.example.tictactoe.ui.theme.TicTacToeTheme
 import com.example.tictactoe.ui.theme.kantiFontFamily
+import kotlinx.coroutines.launch
 
 @Composable
 fun GameScreen(gameViewModal: GameViewModal, boardViewModal: BoardViewModal, navigateTo: ()-> Unit) {
     val game =   gameViewModal.gameState
     val board =  boardViewModal.boardState
-
+//    LaunchedEffect(Unit) {
+//       launch {
+//           boardViewModal.getData()
+//       }
+//    }
     Scaffold(
         modifier = Modifier.Companion
             .fillMaxSize()
@@ -52,8 +61,9 @@ fun GameScreen(gameViewModal: GameViewModal, boardViewModal: BoardViewModal, nav
             horizontalAlignment = Alignment.Companion.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
+
             Log.d("debug", "recompose ${board}")
-            Header(game.value.playerScores , board.value.mode)
+            Header(game.value.playerScores, board.value.mode)
 
             if (!board.value.isRoundOver.value && !board.value.isBoardFull.value) {
                 CurrentChance(board.value.isPlayer1Turn.value)

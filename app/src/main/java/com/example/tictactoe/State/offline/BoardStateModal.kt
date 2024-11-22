@@ -1,4 +1,4 @@
-package com.example.tictactoe.State
+package com.example.tictactoe.State.offline
 
 import android.util.Log
 import androidx.compose.runtime.MutableIntState
@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import java.util.Stack
+
 
 data class BoardState(
     var board: SnapshotStateList<SnapshotStateList<String>> = mutableStateListOf(
