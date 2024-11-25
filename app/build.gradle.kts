@@ -45,19 +45,16 @@ dependencies {
     val nav_version = "2.8.4"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
-    val supabase_version = "3.0.2"
-    implementation(platform("io.github.jan-tennert.supabase:bom:$supabase_version"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
     val ktor_version = "3.0.1"
     implementation("io.ktor:ktor-client-android:$ktor_version")
+    implementation("io.ktor:ktor-client-okhttp:$ktor_version")
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-logging:$ktor_version")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
 
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-
-    implementation ("io.ktor:ktor-client-android:1.6.4")
-    implementation ("io.ktor:ktor-client-websockets:1.6.4")
 
 //    implementation("io.coil-kt.coil3:coil-compose:3.0.3")
 
