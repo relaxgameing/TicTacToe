@@ -43,7 +43,7 @@ fun Form(
 
         Spacer(Modifier.Companion.height(60.dp))
 
-        CreateRoom(userState.user , userState::createNewRoom)
+        CreateRoom(userState.user , userState::createNewRoom , userState::joinRoom)
 
     }
 }

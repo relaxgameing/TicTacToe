@@ -1,11 +1,14 @@
 package com.example.tictactoe.State.online
 
+import com.example.tictactoe.Server.WebSocketClient
+
 data class UserStateModal (
     var username: String?= null,
     var roomToken:String? = null,
     var isValidUsername: Boolean = false,
     var isValidRoomToken: Boolean = false,
     var mode: String ="classic" ,
+    var wsClient: WebSocketClient = WebSocketClient("10.0.2.2")
 )
 
 
