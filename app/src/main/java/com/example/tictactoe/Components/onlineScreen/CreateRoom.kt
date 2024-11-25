@@ -47,7 +47,7 @@ import kotlinx.coroutines.flow.StateFlow
 fun CreateRoom(
     userState: StateFlow<UserStateModal>,
     createNewRoom: (String )-> Unit,
-    joinRoom: (String? , String? , ()-> Unit ) -> Unit,
+    joinRoom: ( String? ,  ()-> Unit ) -> Unit,
     navigateToRoom: ()-> Unit,
     modifier: Modifier = Modifier.Companion
 ) {
@@ -127,7 +127,7 @@ fun CreateRoom(
 
         Button(onClick = {
             //join room
-            joinRoom(if(user.value.roomToken == null) roomId.value else roomToken.value , user.value.username , navigateToRoom)
+            joinRoom(roomId.value , navigateToRoom)
         }, modifier = Modifier.Companion.wrapContentWidth()) {
             Icon(Icons.Filled.Home, contentDescription = "join room")
             Spacer(Modifier.Companion.width(10.dp))

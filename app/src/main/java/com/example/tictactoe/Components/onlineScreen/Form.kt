@@ -9,20 +9,24 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.tictactoe.Components.onlineScreen.CreateRoom
 import com.example.tictactoe.Components.onlineScreen.EnterUsername
+import com.example.tictactoe.State.online.OnlineModeState
 import com.example.tictactoe.State.online.RoomViewModal
 import com.example.tictactoe.State.online.UserStateViewModal
 
 @Composable
 fun Form(
-    userState: UserStateViewModal,
+    onlineState: OnlineModeState,
     navigateToRoom:()->Unit,
     modifier: Modifier = Modifier.Companion
 ) {
+
+    val userState = remember { onlineState.userState }
     Column(
         modifier = modifier
             .fillMaxWidth()
@@ -35,7 +39,7 @@ fun Form(
 
         EnterUsername(
             userState.user,
-            userState::checkUsername
+            onlineState.userState::checkUsername
         )
 
         Spacer(Modifier.Companion.height(40.dp))
@@ -44,7 +48,7 @@ fun Form(
 
         Spacer(Modifier.Companion.height(60.dp))
 
-        CreateRoom(userState.user , userState::createNewRoom , userState::joinRoom , navigateToRoom)
+        CreateRoom(userState.user , userState::createNewRoom , onlineState::joinRoom , navigateToRoom)
 
     }
 }

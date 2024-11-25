@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tictactoe.Components.AppLogo
+import com.example.tictactoe.State.online.OnlineModeState
 import com.example.tictactoe.State.online.RoomStateRepository
 import com.example.tictactoe.State.online.RoomViewModal
 import com.example.tictactoe.State.online.UserStateRepository
@@ -29,7 +30,7 @@ import com.example.tictactoe.ui.theme.TicTacToeTheme
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun OnlineScreen(
-    userState: UserStateViewModal,
+    onlineState: OnlineModeState,
     navigateToRoom: ()-> Unit,
     navigateBack: (String) -> Unit
 ) {
@@ -54,7 +55,7 @@ fun OnlineScreen(
         ) {
             AppLogo()
             Spacer(Modifier.Companion.height(40.dp))
-            Form(userState ,navigateToRoom)
+            Form(onlineState ,navigateToRoom)
         }
     }
 }
@@ -65,7 +66,7 @@ fun OnlineScreen(
 fun OnlineScreenPreview() {
     TicTacToeTheme {
         OnlineScreen(
-            UserStateViewModal(UserStateRepository()),{},
+            OnlineModeState(),{},
             {})
     }
 }

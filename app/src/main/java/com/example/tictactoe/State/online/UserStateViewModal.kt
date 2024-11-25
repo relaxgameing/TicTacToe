@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class UserStateViewModal(private val userStateRepository: UserStateRepository) : ViewModel() {
@@ -88,7 +89,7 @@ class UserStateViewModal(private val userStateRepository: UserStateRepository) :
         if (roomToken.isNullOrBlank() || username.isNullOrBlank()) return
         Log.d("retro" , "joining")
         viewModelScope.launch{
-            user.value.wsClient.joinRoom(roomToken , username , navigateToRoom)
+
         }
     }
 }

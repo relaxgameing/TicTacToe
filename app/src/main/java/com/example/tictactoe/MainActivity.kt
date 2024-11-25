@@ -60,13 +60,13 @@ fun App(
         }
 
         composable("online"){
-            OnlineScreen(onlineState.userState , {newNavController.navigate("gameRoom")} ){
+            OnlineScreen(onlineState , {newNavController.navigate("gameRoom")} ){
                 newNavController.navigate("home")
             }
         }
 
         composable("gameRoom"){
-            OnlineBoardScreen(roomState = onlineState.roomState) {
+            OnlineBoardScreen(onlineState) {
                 newNavController.navigate("online")
             }
         }
