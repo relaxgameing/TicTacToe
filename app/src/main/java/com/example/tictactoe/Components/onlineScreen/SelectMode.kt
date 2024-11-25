@@ -14,21 +14,25 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.tictactoe.State.online.RoomViewModal
+import com.example.tictactoe.State.online.UserStateModal
 import com.example.tictactoe.ui.theme.Black
 import com.example.tictactoe.ui.theme.BorderColor
 import com.example.tictactoe.ui.theme.SelectedColor
 import com.example.tictactoe.ui.theme.kantiFontFamily
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun SelectMode(roomViewModal: RoomViewModal, modifier: Modifier = Modifier.Companion) {
-    val mode = remember { mutableStateOf(roomViewModal.roomState.value.mode) }
+fun SelectMode(userState: StateFlow<UserStateModal>, updateRoomMode: (String) -> Unit, modifier: Modifier = Modifier.Companion) {
+
+    val user = userState.collectAsState()
+    val mode = remember (user.value){ mutableStateOf(user.value.mode) }
 
     Column(
         modifier = Modifier.Companion
@@ -49,8 +53,7 @@ fun SelectMode(roomViewModal: RoomViewModal, modifier: Modifier = Modifier.Compa
         ) {
             TextButton(
                 onClick = {
-                    roomViewModal.updateRoomMode("classic")
-                    mode.value = roomViewModal.roomState.value.mode
+                    updateRoomMode("classic")
                 },
                 modifier = Modifier.Companion
                     .clip(RoundedCornerShape(15.dp))
@@ -68,9 +71,7 @@ fun SelectMode(roomViewModal: RoomViewModal, modifier: Modifier = Modifier.Compa
 
             TextButton(
                 onClick = {
-                    roomViewModal.updateRoomMode("crazy")
-                    mode.value = roomViewModal.roomState.value.mode
-
+                    updateRoomMode("crazy")
                 },
                 modifier = Modifier.Companion
                     .clip(androidx.compose.foundation.shape.RoundedCornerShape(15.dp))

@@ -54,7 +54,7 @@ fun OnlineScreen(
         ) {
             AppLogo()
             Spacer(Modifier.Companion.height(40.dp))
-            Form(userState, roomViewModal)
+            Form(userState)
         }
     }
 }

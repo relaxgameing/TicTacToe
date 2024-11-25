@@ -1,5 +1,6 @@
 package com.example.tictactoe.Components.onlineScreen
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -21,6 +22,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -33,28 +35,31 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tictactoe.R
+import com.example.tictactoe.State.online.UserStateModal
 import com.example.tictactoe.State.online.UserStateViewModal
 import com.example.tictactoe.ui.theme.BackGroundColor
 import com.example.tictactoe.ui.theme.Black
 import com.example.tictactoe.ui.theme.BorderColor
 import com.example.tictactoe.ui.theme.kantiFontFamily
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun CreateRoom(
-    userState: UserStateViewModal,
-    username: String?,
+    userState: StateFlow<UserStateModal>,
+    createNewRoom: (String )-> Unit,
     modifier: Modifier = Modifier.Companion
 ) {
+    val user = userState.collectAsState()
     val roomToken =
-        remember(userState.user.value) { mutableStateOf<String?>(userState.user.value.roomToken) }
+        remember(user.value) { mutableStateOf<String?>(user.value.roomToken) }
 
     val clipboardManager = LocalClipboardManager.current
     val localContext = LocalContext.current
 
-    val roomId = rememberSaveable { mutableStateOf("") }
+    val roomId = rememberSaveable { mutableStateOf<String>("") }
 
     OutlinedTextField(
-        roomId.value,
+        if (roomToken.value.isNullOrBlank()) roomId.value else roomToken.value!!,
         onValueChange = { roomId.value = it },
         modifier = modifier.fillMaxWidth(),
         colors = OutlinedTextFieldDefaults.colors(
@@ -66,7 +71,7 @@ fun CreateRoom(
         ),
         shape = RoundedCornerShape(15.dp),
         label = {
-            Text("username", fontFamily = kantiFontFamily)
+            Text("Room ID:", fontFamily = kantiFontFamily)
         },
         trailingIcon = {
             if (false) {
@@ -75,18 +80,19 @@ fun CreateRoom(
                 Icon(Icons.Sharp.Create, contentDescription = "enter username")
             }
         },
+        enabled = !user.value.isValidRoomToken
     )
 
     Spacer(modifier.height(20.dp))
 
 
 
-    if (roomToken.value == null) {
-
+    if (roomToken.value?.length != 36) {
 
         Button(onClick = {
-            if (username != null) {
-                userState.createNewRoom(username)
+            Log.d("retro" , user.value.username.toString() )
+            if (user.value.isValidUsername && !user.value.username.isNullOrBlank()) {
+                createNewRoom(user.value.username!!)
             }
         }, modifier = Modifier.Companion.wrapContentWidth()) {
             Icon(Icons.Filled.Home, contentDescription = "room")

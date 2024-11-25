@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -19,7 +20,6 @@ import com.example.tictactoe.State.online.UserStateViewModal
 @Composable
 fun Form(
     userState: UserStateViewModal,
-    roomViewModal: RoomViewModal,
     modifier: Modifier = Modifier.Companion
 ) {
     Column(
@@ -34,18 +34,16 @@ fun Form(
 
         EnterUsername(
             userState.user,
-            userState::checkUsername,
-            userState.user.value.roomToken != null
+            userState::checkUsername
         )
 
         Spacer(Modifier.Companion.height(40.dp))
 
-        SelectMode(roomViewModal)
+        SelectMode(userState.user , updateRoomMode = userState::updateRoomMode)
 
         Spacer(Modifier.Companion.height(60.dp))
 
-
-        CreateRoom(userState, userState.user.value.username)
+        CreateRoom(userState.user , userState::createNewRoom)
 
     }
 }
