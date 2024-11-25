@@ -84,11 +84,11 @@ class UserStateViewModal(private val userStateRepository: UserStateRepository) :
         }
     }
 
-    fun joinRoom(roomToken: String? , username: String?){
+    fun joinRoom(roomToken: String? , username: String? , navigateToRoom:()-> Unit){
         if (roomToken.isNullOrBlank() || username.isNullOrBlank()) return
         Log.d("retro" , "joining")
         viewModelScope.launch{
-            user.value.wsClient.joinRoom(roomToken , username)
+            user.value.wsClient.joinRoom(roomToken , username , navigateToRoom)
         }
     }
 }

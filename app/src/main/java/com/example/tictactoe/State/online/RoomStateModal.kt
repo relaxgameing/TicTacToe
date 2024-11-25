@@ -5,10 +5,10 @@ import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class RoomStateModal (
-
     @SerializedName("roomToken"     ) var roomToken     : String?                      = null,
     @SerializedName("player1"       ) var player1       : String?                      = null,
     @SerializedName("player2"       ) var player2       : String?                      = null,
@@ -29,12 +29,9 @@ class RoomStateRepository(mode: String = "classic"){
     private var _roomState  = RoomStateModal(mode= mode)
     val roomState = _roomState
 
-    fun updateRoomsMode(mode:String){
-        _roomState.mode = mode
-    }
-
-    fun updateRoomId(roomId: String){
-        _roomState.roomToken = roomId
+    fun updateBoardState(i:Int ,j:Int , value:String): RoomStateModal{
+        _roomState.board[i][j] = value
+        return _roomState
     }
 
 }

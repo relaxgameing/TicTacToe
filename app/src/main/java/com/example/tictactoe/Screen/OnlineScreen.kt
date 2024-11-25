@@ -30,7 +30,7 @@ import com.example.tictactoe.ui.theme.TicTacToeTheme
 @Composable
 fun OnlineScreen(
     userState: UserStateViewModal,
-    roomViewModal: RoomViewModal,
+    navigateToRoom: ()-> Unit,
     navigateBack: (String) -> Unit
 ) {
     Scaffold(
@@ -54,7 +54,7 @@ fun OnlineScreen(
         ) {
             AppLogo()
             Spacer(Modifier.Companion.height(40.dp))
-            Form(userState)
+            Form(userState ,navigateToRoom)
         }
     }
 }
@@ -65,8 +65,7 @@ fun OnlineScreen(
 fun OnlineScreenPreview() {
     TicTacToeTheme {
         OnlineScreen(
-            UserStateViewModal(UserStateRepository()),
-            RoomViewModal(RoomStateRepository()),
+            UserStateViewModal(UserStateRepository()),{},
             {})
     }
 }

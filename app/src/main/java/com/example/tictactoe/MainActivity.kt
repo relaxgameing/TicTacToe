@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.tictactoe.Screen.GameScreen
 import com.example.tictactoe.Screen.MainMenu
+import com.example.tictactoe.Screen.OnlineBoardScreen
 import com.example.tictactoe.Screen.OnlineScreen
 import com.example.tictactoe.State.offline.GameModeState
 import com.example.tictactoe.State.online.OnlineModeState
@@ -59,8 +60,14 @@ fun App(
         }
 
         composable("online"){
-            OnlineScreen(onlineState.userState , onlineState.roomState ){
+            OnlineScreen(onlineState.userState , {newNavController.navigate("gameRoom")} ){
                 newNavController.navigate("home")
+            }
+        }
+
+        composable("gameRoom"){
+            OnlineBoardScreen(roomState = onlineState.roomState) {
+                newNavController.navigate("online")
             }
         }
     }

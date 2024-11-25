@@ -20,6 +20,7 @@ import com.example.tictactoe.State.online.UserStateViewModal
 @Composable
 fun Form(
     userState: UserStateViewModal,
+    navigateToRoom:()->Unit,
     modifier: Modifier = Modifier.Companion
 ) {
     Column(
@@ -43,7 +44,7 @@ fun Form(
 
         Spacer(Modifier.Companion.height(60.dp))
 
-        CreateRoom(userState.user , userState::createNewRoom , userState::joinRoom)
+        CreateRoom(userState.user , userState::createNewRoom , userState::joinRoom , navigateToRoom)
 
     }
 }
