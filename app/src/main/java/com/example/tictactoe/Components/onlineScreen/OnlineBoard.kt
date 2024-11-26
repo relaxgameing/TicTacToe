@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -22,13 +23,14 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.tictactoe.R
+import com.example.tictactoe.State.online.RoomStateModal
 import com.example.tictactoe.State.online.RoomViewModal
 import com.example.tictactoe.ui.theme.BackGroundColor
 
 @Composable
-fun OnlineBoard( roomViewModal: RoomViewModal , makeMove:(Int , Int)->Unit , modifier: Modifier = Modifier) {
+fun OnlineBoard(roomState: State<RoomStateModal>, makeMove:(Int, Int)->Unit, modifier: Modifier = Modifier) {
 
-    val roomState = roomViewModal.roomState.collectAsState()
+
     val board = remember (roomState.value ){ roomState.value.board }
     Surface(
         modifier = Modifier.Companion.size(300.dp)

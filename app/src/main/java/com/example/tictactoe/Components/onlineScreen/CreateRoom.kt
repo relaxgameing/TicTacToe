@@ -46,7 +46,7 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun CreateRoom(
     userState: StateFlow<UserStateModal>,
-    createNewRoom: (String )-> Unit,
+    createNewRoom: (String  , String)-> Unit,
     joinRoom: ( String? ,  ()-> Unit ) -> Unit,
     navigateToRoom: ()-> Unit,
     modifier: Modifier = Modifier.Companion
@@ -94,7 +94,7 @@ fun CreateRoom(
         Button(onClick = {
             Log.d("retro" , user.value.username.toString() )
             if (user.value.isValidUsername && !user.value.username.isNullOrBlank()) {
-                createNewRoom(user.value.username!!)
+                createNewRoom(user.value.username!! , user.value.mode)
             }
         }, modifier = Modifier.Companion.wrapContentWidth()) {
             Icon(Icons.Filled.Home, contentDescription = "room")

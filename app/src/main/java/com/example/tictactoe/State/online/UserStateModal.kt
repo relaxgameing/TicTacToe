@@ -8,7 +8,8 @@ data class UserStateModal (
     var isValidUsername: Boolean = false,
     var isValidRoomToken: Boolean = false,
     var mode: String ="classic" ,
-    var wsClient: WebSocketClient = WebSocketClient("10.0.2.2")
+    var wsClient: WebSocketClient = WebSocketClient("relaxgamein-tictactoeba-92-9rtyvkkzbnht.deno.dev")
+//    var wsClient: WebSocketClient = WebSocketClient("10.0.2.2")
 )
 
 
@@ -16,6 +17,11 @@ data class UserStateModal (
 class UserStateRepository{
     private  var _userState = UserStateModal()
     val userState = _userState
+
+    fun resetUserState(): UserStateModal{
+        _userState = UserStateModal().copy(wsClient = _userState.wsClient)
+        return _userState
+    }
 
     fun updateUsername(username: String? ): UserStateModal{
         _userState.username = username

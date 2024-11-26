@@ -5,6 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tictactoe.Server.Move
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -19,16 +21,17 @@ class OnlineModeState : ViewModel() {
         else null
 
         if (curRoomId == null || userState.user.value.username.isNullOrBlank()) return
-        Log.d("retro", "joining")
+        Log.d("retro", "joining room $curRoomId")
         viewModelScope.launch {
-            userState.user.value.wsClient.joinRoomAndSetUpSocket(
-                curRoomId!!,
+             userState.user.value.wsClient.joinRoomAndSetUpSocket(
+                 curRoomId,
                 userState.user.value.username!!,
                 {
                     roomState.updateRoomState(it)
                 },
                 navigateToRoom
             )
+
         }
     }
 
@@ -37,6 +40,15 @@ class OnlineModeState : ViewModel() {
             val move = Move(from = userState.user.value.username!!, arrayOf(i, j))
             Log.d("retro" , move.toString())
             userState.user.value.wsClient.makeMove(move)
+        }
+    }
+
+    fun exitRoom(navigateTo:()-> Unit){
+        viewModelScope.launch{
+            Log.d("retro" , "logging out of room")
+            userState.user.value.wsClient.close()
+            userState.reset()
+            navigateTo()
         }
     }
 }

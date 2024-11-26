@@ -63,7 +63,7 @@ fun GameScreen(gameViewModal: GameViewModal, boardViewModal: BoardViewModal, nav
         ) {
 
             Log.d("debug", "recompose ${board}")
-            Header(game.value.playerScores, board.value.mode)
+            Header(game.value.playerScores , board.value.mode)
 
             if (!board.value.isRoundOver.value && !board.value.isBoardFull.value) {
                 CurrentChance(board.value.isPlayer1Turn.value)

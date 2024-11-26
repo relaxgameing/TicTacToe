@@ -10,24 +10,19 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
-import io.ktor.client.plugins.websocket.webSocketSession
-import io.ktor.client.request.url
 import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.consumeAsFlow
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.filterIsInstance
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.isActive
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
@@ -53,28 +48,44 @@ class WebSocketClient(private val host: String) {
         onCollect: (RoomStateModal)->Unit,
         navigateToGameRoom: () -> Unit
     ) {
+
+        try {
+
             client.webSocket(
-                host = host,
                 method = HttpMethod.Get,
-                path = "game/room/join/$roomId?username=$username",
+                host = "10.0.2.2",
                 port = 3000,
-            ) {
+                path = "game/room/join/$roomId?username=$username",
+                request = {
+
+                }
+            )
+//            client.webSocket("wss://relaxgamein-tictactoeba-92-9rtyvkkzbnht.deno.dev/game/room/join/$roomId?username=$username")
+             {
+
                 session = this
+                Log.d("retro" , "inside wsclient ${this.isActive}")
                 session!!.incoming
                     .consumeAsFlow()
                     .filterIsInstance<Frame.Text>()
                     .mapNotNull { Json.decodeFromString<RoomStateModal>(it.readText()) }
                     .onStart {
-                        Log.d("retro" , "connection complete")
+                        Log.d("retro", "connection complete")
                         navigateToGameRoom()
                     }
                     .onEach {
-                        Log.d("retro" , it.toString())
+                        Log.d("retro", it.toString())
                     }
-                    .collect{
+                    .catch {
+                        Log.d("retro", it.message.toString())
+                    }
+                    .collect {
                         onCollect(it)
                     }
             }
+        }catch (e : Exception){
+            Log.d("retro" , "websocket error occured ${e.message} ")
+        }
 }
 
 suspend fun makeMove(move: Move) {

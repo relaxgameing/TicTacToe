@@ -23,6 +23,12 @@ class UserStateViewModal(private val userStateRepository: UserStateRepository) :
         return _user.value.username
     }
 
+    fun reset() {
+        viewModelScope.launch {
+            _user.emit(userStateRepository.resetUserState().copy())
+        }
+    }
+
     fun test() {
         viewModelScope.launch {
             try {
@@ -61,34 +67,34 @@ class UserStateViewModal(private val userStateRepository: UserStateRepository) :
         }
     }
 
-    fun createNewRoom(username: String) {
+    fun createNewRoom(username: String , mode: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.d("retro", "creating room $username")
                 val res = async {
-                    retroService.createRoom(username)
+                    retroService.createRoom(username , mode)
                 }
 
 
                 val data = res.await()
-                if (data.isSuccessful){
-                    if (data.body() != null){
-                        _user.emit( userStateRepository.updateRoomToken(data.body()!!.roomId).copy())
+                if (data.isSuccessful) {
+                    if (data.body() != null) {
+                        _user.emit(userStateRepository.updateRoomToken(data.body()!!.roomId).copy())
                     }
-                }else{
-                    Log.d("retro" , data.body().toString())
+                } else {
+                    Log.d("retro", data.body().toString())
                 }
-             res.join()
+                res.join()
             } catch (e: Exception) {
                 Log.d("retro", "error occured while making new room ${e.message}")
             }
         }
     }
 
-    fun joinRoom(roomToken: String? , username: String? , navigateToRoom:()-> Unit){
+    fun joinRoom(roomToken: String?, username: String?, navigateToRoom: () -> Unit) {
         if (roomToken.isNullOrBlank() || username.isNullOrBlank()) return
-        Log.d("retro" , "joining")
-        viewModelScope.launch{
+        Log.d("retro", "joining")
+        viewModelScope.launch {
 
         }
     }
