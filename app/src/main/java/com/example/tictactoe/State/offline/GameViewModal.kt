@@ -1,4 +1,4 @@
-package com.example.tictactoe.State
+package com.example.tictactoe.State.offline
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf

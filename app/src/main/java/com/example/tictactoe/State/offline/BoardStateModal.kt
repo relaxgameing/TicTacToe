@@ -1,4 +1,4 @@
-package com.example.tictactoe.State
+package com.example.tictactoe.State.offline
 
 import android.util.Log
 import androidx.compose.runtime.MutableIntState
@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import java.util.Stack
+
 
 data class BoardState(
     var board: SnapshotStateList<SnapshotStateList<String>> = mutableStateListOf(
@@ -102,11 +102,14 @@ class BoardStateRepository(mode: String = "classic"){
         if (_boardState.mode == "crazy" && _boardState.gameStack.size == 7){
             crazyModeMatrixUpdate()
         }
+
         val three = checkForThree()
         if (three != 0 ){
             _boardState.isRoundOver.value = true;
             _boardState.roundWinner.intValue  = three
         }
+
+
 
         return three
     }

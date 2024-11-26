@@ -1,4 +1,4 @@
-package com.example.tictactoe
+package com.example.tictactoe.Screen
 
 import android.os.Bundle
 import android.os.PersistableBundle
@@ -46,6 +46,7 @@ class HomeScreen(val  navigateTo: (String)-> Unit) : ComponentActivity() {
 
 @Composable
 fun MainMenu(navigateTo: (String) -> Unit) {
+
     Surface(
         modifier = Modifier
             .fillMaxSize()
@@ -81,10 +82,13 @@ fun Menu(navigateTo: (String) -> Unit) {
 
 @Composable
 fun MenuOption(navigateTo: (String) -> Unit, modifier: Modifier = Modifier) {
+
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxWidth().wrapContentHeight(),
     ){
+
+
         H3("Select Mode")
         Spacer(modifier = Modifier.height(20.dp))
         OutlinedButton (
@@ -101,6 +105,14 @@ fun MenuOption(navigateTo: (String) -> Unit, modifier: Modifier = Modifier) {
             border = null
         ) {
             H4("Crazy")
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        OutlinedButton (
+            onClick = {navigateTo("online")},
+            colors = ButtonDefaults.outlinedButtonColors(containerColor = BorderColor, contentColor = Color.Black),
+            border = null
+        ) {
+            H4("online")
         }
     }
 }

@@ -21,7 +21,7 @@ import com.example.tictactoe.R
 @Composable
 fun AppLogo() {
     Row (
-        modifier = Modifier.fillMaxWidth().padding(10.dp),
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(10.dp),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ){
