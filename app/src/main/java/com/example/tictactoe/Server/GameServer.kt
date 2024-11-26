@@ -10,9 +10,9 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
-//private const val BASE_URL ="https://relaxgamein-tictactoeba-92.deno.dev/"
-//private const val BASE_URL ="https://relaxgamein-tictactoeba-92-9rtyvkkzbnht.deno.dev/"
-private const val BASE_URL ="http://10.0.2.2:3000/"
+private const val BASE_URL ="https://relaxgamein-tictactoeba-92.deno.dev/"
+//private const val BASE_URL ="https://relaxgamein-tictactoeba-92-ce17dhgb3yr3.deno.dev/"
+//private const val BASE_URL ="http://10.0.2.2:3000/"
 
 val retro = Retrofit.Builder()
             .baseUrl(BASE_URL)

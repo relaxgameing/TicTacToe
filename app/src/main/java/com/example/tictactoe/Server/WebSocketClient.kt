@@ -51,16 +51,16 @@ class WebSocketClient(private val host: String) {
 
         try {
 
-            client.webSocket(
-                method = HttpMethod.Get,
-                host = "10.0.2.2",
-                port = 3000,
-                path = "game/room/join/$roomId?username=$username",
-                request = {
-
-                }
-            )
-//            client.webSocket("wss://relaxgamein-tictactoeba-92-9rtyvkkzbnht.deno.dev/game/room/join/$roomId?username=$username")
+//            client.webSocket(
+//                method = HttpMethod.Get,
+//                host = "10.0.2.2",
+//                port = 3000,
+//                path = "game/room/join/$roomId?username=$username",
+//                request = {
+//
+//                }
+//            )
+            client.webSocket("wss://relaxgamein-tictactoeba-92.deno.dev/game/room/join/$roomId?username=$username")
              {
 
                 session = this

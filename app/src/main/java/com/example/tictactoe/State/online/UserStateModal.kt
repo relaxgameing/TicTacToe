@@ -8,7 +8,7 @@ data class UserStateModal (
     var isValidUsername: Boolean = false,
     var isValidRoomToken: Boolean = false,
     var mode: String ="classic" ,
-    var wsClient: WebSocketClient = WebSocketClient("relaxgamein-tictactoeba-92-9rtyvkkzbnht.deno.dev")
+    var wsClient: WebSocketClient = WebSocketClient("relaxgamein-tictactoeba-92-ce17dhgb3yr3.deno.dev")
 //    var wsClient: WebSocketClient = WebSocketClient("10.0.2.2")
 )
 
