@@ -15,8 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.sharp.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -41,13 +39,12 @@ import com.example.tictactoe.State.offline.GameStateRepository
 import com.example.tictactoe.State.offline.GameViewModal
 import com.example.tictactoe.State.online.OnlineModeState
 import com.example.tictactoe.State.online.RoomStateModal
-import com.example.tictactoe.State.online.RoomViewModal
 import com.example.tictactoe.ui.theme.BackGroundColor
 import com.example.tictactoe.ui.theme.TicTacToeTheme
 import com.example.tictactoe.ui.theme.kantiFontFamily
 
 @Composable
-fun OnlineBoardScreen(onlineState: OnlineModeState, navigateTo: ()-> Unit) {
+fun OnlineBoardScreen(onlineState: OnlineModeState, navigateTo: () -> Unit) {
 
     val roomState = onlineState.roomState.roomState.collectAsState()
     Scaffold(
@@ -70,11 +67,11 @@ fun OnlineBoardScreen(onlineState: OnlineModeState, navigateTo: ()-> Unit) {
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
             Scores(roomState)
-            if (roomState.value.gameOver){
-                OnlineWinnerBanner(roomState, onlineState::exitRoom , navigateTo)
-            }else
+            if (roomState.value.gameOver) {
+                OnlineWinnerBanner(roomState, onlineState::exitRoom, navigateTo)
+            } else
 
-            OnlineBoard(roomState , onlineState::sendMove)
+                OnlineBoard(roomState, onlineState::sendMove)
 
         }
     }
@@ -88,37 +85,40 @@ fun Scores(state: State<RoomStateModal>) {
     ) {
 
         AppLogo()
-        Text("Online ${state.value.mode} mode" , fontFamily = kantiFontFamily , fontSize = 20.sp)
-        Row(
-            modifier = Modifier.Companion
-                .fillMaxWidth()
-                .padding(vertical = 32.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            ScoreBoard(state.value.player1,state.value.scores[0] )
-            Spacer(modifier = Modifier.Companion.width(32.dp))
-            ScoreBoard(state.value.player2, state.value.scores[1])
+        Text("Online ${state.value.mode} mode", fontFamily = kantiFontFamily, fontSize = 20.sp)
+
+        if (state.value.player1 != null) {
+
+            Row(
+                modifier = Modifier.Companion
+                    .fillMaxWidth()
+                    .padding(vertical = 32.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                ScoreBoard(state.value.player1, state.value.scores[0])
+                Spacer(modifier = Modifier.Companion.width(32.dp))
+                ScoreBoard(state.value.player2, state.value.scores[1])
+            }
         }
-        OnlineCurrentChance(state.value.isPlayer1Turn , state.value.player1 , state.value.player2)
+        OnlineCurrentChance(state.value.isPlayer1Turn, state.value.player1, state.value.player2)
     }
 }
 
 @Composable
-fun OnlineCurrentChance(isPlayer1Turn: Boolean , player1:String? , player2 : String?) {
-    if (player1==null || player2 == null)
-    {
+fun OnlineCurrentChance(isPlayer1Turn: Boolean, player1: String?, player2: String?) {
+    if (player1 == null || player2 == null) {
         Text(
             "Waiting for other player",
             fontFamily = kantiFontFamily,
             fontSize = 20.sp
         )
-    }else
+    } else
 
-    Text(
-        " ${if (isPlayer1Turn) player1 else player2}  Turn",
-        fontFamily = kantiFontFamily,
-        fontSize = 20.sp
-    )
+        Text(
+            " ${if (isPlayer1Turn) player1 else player2}  Turn",
+            fontFamily = kantiFontFamily,
+            fontSize = 20.sp
+        )
 }
 
 @Composable
@@ -128,7 +128,7 @@ fun ScoreBoard(name: String?, score: Int, modifier: Modifier = Modifier.Companio
     ) {
         Text(
             if (name == null) "Opponent" else name,
-            fontSize =  24.sp,
+            fontSize = 24.sp,
             modifier = Modifier.Companion.padding(bottom = 10.dp),
             fontFamily = kantiFontFamily
         )
@@ -138,9 +138,14 @@ fun ScoreBoard(name: String?, score: Int, modifier: Modifier = Modifier.Companio
 }
 
 @Composable
-fun OnlineWinnerBanner(state:State<RoomStateModal>, exitRoom: (()-> Unit)-> Unit, navigateTo: () -> Unit, modifier: Modifier = Modifier) {
+fun OnlineWinnerBanner(
+    state: State<RoomStateModal>,
+    exitRoom: (() -> Unit) -> Unit,
+    navigateTo: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val winner = remember {
-        if (state.value.scores[0]==3)
+        if (state.value.scores[0] == 3)
             state.value.player1
         else
             state.value.player2
@@ -151,8 +156,10 @@ fun OnlineWinnerBanner(state:State<RoomStateModal>, exitRoom: (()-> Unit)-> Unit
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-            Text("Player $winner won", fontFamily = kantiFontFamily, softWrap = true ,
-                letterSpacing = 3.sp , fontSize = 25.sp )
+        Text(
+            "Player $winner won", fontFamily = kantiFontFamily, softWrap = true,
+            letterSpacing = 3.sp, fontSize = 25.sp
+        )
 
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -160,15 +167,17 @@ fun OnlineWinnerBanner(state:State<RoomStateModal>, exitRoom: (()-> Unit)-> Unit
         TextButton(
             onClick = {
                 exitRoom(navigateTo)
-                Log.d("debug",  "button clicked")
+                Log.d("debug", "button clicked")
             },
         ) {
-            Icon(Icons.AutoMirrored.Default.ExitToApp, contentDescription = "refresh", tint = Color.White)
+            Icon(
+                Icons.AutoMirrored.Default.ExitToApp,
+                contentDescription = "refresh",
+                tint = Color.White
+            )
         }
     }
 }
-
-
 
 
 @Preview(showBackground = true)

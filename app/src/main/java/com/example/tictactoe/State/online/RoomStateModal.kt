@@ -36,4 +36,9 @@ class RoomStateRepository(mode: String = "classic"){
         return _roomState
     }
 
+    fun reset(): RoomStateModal{
+        _roomState = RoomStateModal(mode = "classic")
+        return _roomState
+    }
+
 }

@@ -48,6 +48,7 @@ class OnlineModeState : ViewModel() {
             Log.d("retro" , "logging out of room")
             userState.user.value.wsClient.close()
             userState.reset()
+            roomState.reset()
             navigateTo()
         }
     }
