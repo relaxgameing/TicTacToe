@@ -45,26 +45,29 @@ class WebSocketClient(private val host: String) {
     suspend fun joinRoomAndSetUpSocket(
         roomId: String,
         username: String,
-        onCollect: (RoomStateModal)->Unit,
+        onCollect: (RoomStateModal) -> Unit,
         navigateToGameRoom: () -> Unit
     ) {
 
         try {
 
-//            client.webSocket(
-//                method = HttpMethod.Get,
-//                host = "10.0.2.2",
-//                port = 3000,
-//                path = "game/room/join/$roomId?username=$username",
-//                request = {
-//
-//                }
-//            )
-            client.webSocket("wss://relaxgamein-tictactoeba-92.deno.dev/game/room/join/$roomId?username=$username")
-             {
+            //this for testing
+            client.webSocket(
+                method = HttpMethod.Get,
+                host = "10.0.2.2",
+                port = 3000,
+                path = "game/room/join/$roomId?username=$username",
+                request = {
+
+                }
+            )
+
+            //this for production
+//            client.webSocket("wss://relaxgamein-tictactoeba-92.deno.dev/game/room/join/$roomId?username=$username")
+            {
 
                 session = this
-                Log.d("retro" , "inside wsclient ${this.isActive}")
+                Log.d("retro", "inside wsclient ${this.isActive}")
                 session!!.incoming
                     .consumeAsFlow()
                     .filterIsInstance<Frame.Text>()
@@ -83,19 +86,20 @@ class WebSocketClient(private val host: String) {
                         onCollect(it)
                     }
             }
-        }catch (e : Exception){
-            Log.d("retro" , "websocket error occured ${e.message} ")
+        } catch (e: Exception) {
+            Log.d("retro", "websocket error occured ${e.message} ")
+            
         }
-}
+    }
 
-suspend fun makeMove(move: Move) {
-    session?.outgoing?.send(Frame.Text(Json.encodeToString(move)))
-}
+    suspend fun makeMove(move: Move) {
+        session?.outgoing?.send(Frame.Text(Json.encodeToString(move)))
+    }
 
-suspend fun close() {
-    session?.close()
-    session = null
-}
+    suspend fun close() {
+        session?.close()
+        session = null
+    }
 }
 
 interface WebSocketListener {

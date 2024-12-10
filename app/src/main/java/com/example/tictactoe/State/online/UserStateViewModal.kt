@@ -1,18 +1,14 @@
 package com.example.tictactoe.State.online
 
 import android.util.Log
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tictactoe.Server.retroService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class UserStateViewModal(private val userStateRepository: UserStateRepository) : ViewModel() {
@@ -67,19 +63,21 @@ class UserStateViewModal(private val userStateRepository: UserStateRepository) :
         }
     }
 
-    fun createNewRoom(username: String , mode: String) {
+    fun createNewRoom(username: String, mode: String) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 Log.d("retro", "creating room $username")
                 val res = async {
-                    retroService.createRoom(username , mode)
+                    retroService.createRoom(username, mode)
                 }
 
 
                 val data = res.await()
                 if (data.isSuccessful) {
                     if (data.body() != null) {
-                        _user.emit(userStateRepository.updateRoomToken(data.body()!!.roomId).copy())
+                        _user.emit(
+                            userStateRepository.updateRoomToken(data.body()!!.roomId).copy()
+                        )
                     }
                 } else {
                     Log.d("retro", data.body().toString())

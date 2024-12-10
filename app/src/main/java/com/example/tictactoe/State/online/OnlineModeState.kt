@@ -1,13 +1,9 @@
 package com.example.tictactoe.State.online
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.tictactoe.Server.Move
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class OnlineModeState : ViewModel() {
@@ -23,8 +19,8 @@ class OnlineModeState : ViewModel() {
         if (curRoomId == null || userState.user.value.username.isNullOrBlank()) return
         Log.d("retro", "joining room $curRoomId")
         viewModelScope.launch {
-             userState.user.value.wsClient.joinRoomAndSetUpSocket(
-                 curRoomId,
+            userState.user.value.wsClient.joinRoomAndSetUpSocket(
+                curRoomId,
                 userState.user.value.username!!,
                 {
                     roomState.updateRoomState(it)
@@ -38,18 +34,30 @@ class OnlineModeState : ViewModel() {
     fun sendMove(i: Int, j: Int) {
         viewModelScope.launch {
             val move = Move(from = userState.user.value.username!!, arrayOf(i, j))
-            Log.d("retro" , move.toString())
+            Log.d("retro", move.toString())
             userState.user.value.wsClient.makeMove(move)
         }
     }
 
-    fun exitRoom(navigateTo:()-> Unit){
-        viewModelScope.launch{
-            Log.d("retro" , "logging out of room")
+    fun exitRoom(navigateTo: () -> Unit) {
+        viewModelScope.launch {
+            Log.d("retro", "logging out of room")
             userState.user.value.wsClient.close()
             userState.reset()
             roomState.reset()
             navigateTo()
+        }
+    }
+
+    fun rematch() {
+        viewModelScope.launch {
+            userState.user.value.wsClient.makeMove(
+                Move(
+                    from = userState.user.value.username!!,
+                    arrayOf(0, 0),
+                    true
+                )
+            )
         }
     }
 }

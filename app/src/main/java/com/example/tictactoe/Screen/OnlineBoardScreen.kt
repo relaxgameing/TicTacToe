@@ -1,6 +1,5 @@
 package com.example.tictactoe.Screen
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,30 +8,25 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.sharp.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.tictactoe.Components.AppLogo
 import com.example.tictactoe.Components.onlineScreen.OnlineBoard
+import com.example.tictactoe.Components.onlineScreen.OnlineWinnerBanner
 import com.example.tictactoe.State.offline.BoardStateRepository
 import com.example.tictactoe.State.offline.BoardViewModal
 import com.example.tictactoe.State.offline.GameStateRepository
@@ -68,7 +62,12 @@ fun OnlineBoardScreen(onlineState: OnlineModeState, navigateTo: () -> Unit) {
         ) {
             Scores(roomState)
             if (roomState.value.gameOver) {
-                OnlineWinnerBanner(roomState, onlineState::exitRoom, navigateTo)
+                OnlineWinnerBanner(
+                    roomState,
+                    onlineState::exitRoom,
+                    onlineState::rematch,
+                    navigateTo,
+                )
             } else
 
                 OnlineBoard(roomState, onlineState::sendMove)
@@ -134,48 +133,6 @@ fun ScoreBoard(name: String?, score: Int, modifier: Modifier = Modifier.Companio
         )
 
         Text("$score", fontSize = 32.sp, fontFamily = kantiFontFamily)
-    }
-}
-
-@Composable
-fun OnlineWinnerBanner(
-    state: State<RoomStateModal>,
-    exitRoom: (() -> Unit) -> Unit,
-    navigateTo: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    val winner = remember {
-        if (state.value.scores[0] == 3)
-            state.value.player1
-        else
-            state.value.player2
-    }
-    Column(
-        modifier = Modifier.size(300.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        Text(
-            "Player $winner won", fontFamily = kantiFontFamily, softWrap = true,
-            letterSpacing = 3.sp, fontSize = 25.sp
-        )
-
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        TextButton(
-            onClick = {
-                exitRoom(navigateTo)
-                Log.d("debug", "button clicked")
-            },
-        ) {
-            Icon(
-                Icons.AutoMirrored.Default.ExitToApp,
-                contentDescription = "refresh",
-                tint = Color.White
-            )
-        }
     }
 }
 
