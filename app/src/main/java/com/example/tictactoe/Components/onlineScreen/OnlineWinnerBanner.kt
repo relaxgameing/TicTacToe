@@ -76,7 +76,7 @@ fun AfterMatchOptions(
             fontSize = 25.sp
         )
 
-        if ((state.value.wantRematch[0] == true || state.value.wantRematch[1] == true) && (state.value.player2 != null && state.value.player1 != null)) {
+        if ((state.value.wantRematch[0] == true || state.value.wantRematch[1] == true)) {
             Spacer(Modifier.height(24.dp))
             Text(
                 "Rematch Status",
@@ -92,7 +92,10 @@ fun AfterMatchOptions(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(state.value.player1!!, fontFamily = kantiFontFamily)
+                    Text(
+                        if (state.value.player1 != null) state.value.player1!! else "opponent",
+                        fontFamily = kantiFontFamily
+                    )
                     when (state.value.wantRematch[0]) {
                         true -> {
                             Icon(
@@ -118,7 +121,10 @@ fun AfterMatchOptions(
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(state.value.player2!!, fontFamily = kantiFontFamily)
+                    Text(
+                        if (state.value.player2 != null) state.value.player2!! else "opponent",
+                        fontFamily = kantiFontFamily
+                    )
 
 
                     when (state.value.wantRematch[1]) {
