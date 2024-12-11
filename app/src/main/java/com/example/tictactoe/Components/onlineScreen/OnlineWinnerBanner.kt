@@ -20,7 +20,6 @@ import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.remember
@@ -31,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.tictactoe.Components.FuntionalButton
 import com.example.tictactoe.State.online.RoomStateModal
 import com.example.tictactoe.ui.theme.ButtonColor
 import com.example.tictactoe.ui.theme.kantiFontFamily
@@ -173,68 +173,32 @@ fun AfterMatchOptions(
                 )
                 Spacer(Modifier.Companion.width(10.dp))
 
-            } else TextButton(
-                onClick = {
+            } else {
+                FuntionalButton(onClick = {
                     rematch()
                     Log.d("debug", "rematching")
-                },
-                modifier = Modifier.Companion
-                    .clip(
-                        androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
+                }, textValue = "Rematch", icon = {
+                    Icon(
+                        Icons.Default.Refresh,
+                        contentDescription = "rematch",
+                        tint = Color.Companion.White
                     )
-                    .border(
-                        2.dp,
-                        Color.Companion.Black,
-                        androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
-                    )
-                    .background(ButtonColor),
-
-                ) {
-
-                Text(
-                    "rematch",
-                    fontFamily = kantiFontFamily,
-                    fontSize = 20.sp,
-                    color = Color.Companion.Black
-                )
-                Spacer(Modifier.Companion.width(10.dp))
-                Icon(
-                    Icons.Default.Refresh,
-                    contentDescription = "rematch",
-                    tint = Color.Companion.White
-                )
-
+                })
             }
 
             Spacer(modifier.height(10.dp))
 
-            TextButton(
-                onClick = {
-                    exitRoom(navigateTo)
-                    Log.d("debug", "button clicked")
-                }, modifier = Modifier.Companion
-
-                    .clip(androidx.compose.foundation.shape.RoundedCornerShape(10.dp))
-                    .border(
-                        2.dp,
-                        Color.Companion.Black,
-                        androidx.compose.foundation.shape.RoundedCornerShape(10.dp)
-                    )
-                    .background(ButtonColor)
-            ) {
-                Text(
-                    "Exit",
-                    fontFamily = kantiFontFamily,
-                    fontSize = 20.sp,
-                    color = Color.Companion.Black
-                )
-                Spacer(Modifier.Companion.width(10.dp))
+            FuntionalButton(onClick = {
+                exitRoom(navigateTo)
+                Log.d("debug", "button clicked")
+            }, textValue = "Exit", icon = {
                 Icon(
                     Icons.AutoMirrored.Default.ExitToApp,
                     contentDescription = "refresh",
                     tint = Color.Companion.White
                 )
-            }
+            })
+
         }
 
     }

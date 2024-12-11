@@ -10,7 +10,6 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
-import io.ktor.http.HttpMethod
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.websocket.Frame
 import io.ktor.websocket.WebSocketSession
@@ -52,18 +51,18 @@ class WebSocketClient(private val host: String) {
         try {
 
             //this for testing
-            client.webSocket(
-                method = HttpMethod.Get,
-                host = "10.0.2.2",
-                port = 3000,
-                path = "game/room/join/$roomId?username=$username",
-                request = {
-
-                }
-            )
+//            client.webSocket(
+//                method = HttpMethod.Get,
+//                host = "10.0.2.2",
+//                port = 3000,
+//                path = "game/room/join/$roomId?username=$username",
+//                request = {
+//
+//                }
+//            )
 
             //this for production
-//            client.webSocket("wss://relaxgamein-tictactoeba-92.deno.dev/game/room/join/$roomId?username=$username")
+            client.webSocket("wss://relaxgamein-tictactoeba-92.deno.dev/game/room/join/$roomId?username=$username")
             {
 
                 session = this
@@ -88,7 +87,7 @@ class WebSocketClient(private val host: String) {
             }
         } catch (e: Exception) {
             Log.d("retro", "websocket error occured ${e.message} ")
-            
+
         }
     }
 
